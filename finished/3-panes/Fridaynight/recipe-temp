@@ -1,0 +1,89 @@
+FRIDAY NIGHT COMPANION
+---------------
+
+For those wanting a chill Friday night and take a break from Netlfix binging, the savvy combination of a light browser, chat client and music player will fit the bill.
+
+Throw in a few snacks and you can spend the night chatting up a storm in the old IRC networks.
+
+
+LAYOUT
+-------
+
+
+#---------------------------------
+#|               |               |
+#|               |               |
+#|               |               |
+#|      1        |               |
+#|               |               |
+#|               |               |
+#|---------------|        3      |
+#|               |               |
+#|               |               |
+#|      2        |               |
+#|               |               |
+#|               |               |
+#|               |               |
+#---------------------------------
+
+
+APPS:
+
+1) Links2 
+
+2) Weechat
+
+3) Cmus
+
+HOW TO INSTALL SOFTWARE
+-----------------------
+
+Debian/Ubuntu/Mint/Raspbian
+----------------------------
+
+apt install cmus links2 weechat
+
+
+And if using a *.deb file;
+
+sudo dpkg -i app_name.deb
+
+
+Centos/RedHat
+-------------
+
+yum install cmus links2 weechat
+
+And if using an *.rpm file
+
+sudo rpm -i app_name.rpm
+
+
+Archlinux
+----------
+
+sudo pacman -S links2 weechat cmus
+
+
+
+
+Script (With TMUX!!)
+-----------
+
+#!/bin/bash
+    SN="Layout"
+    tmux has-session -t $SN &>/dev/null
+    if [ $? != 0 ]
+    then
+        tmux new -s $SN -n conf -d
+        tmux new-window -t $SN:2 -n misc
+        tmux select-window -t $SN:1
+        tmux send-keys "links2 www.google.ca" C-m
+        tmux split-window -h -p 50 # split vertically by 50%
+        tmux send-keys "weechat" C-m
+        tmux select-pane -t 0
+        tmux split-window -v -p 50
+        tmux send-keys "cmus" C-m
+        fi
+        tmux -2 attach -t $SN
+

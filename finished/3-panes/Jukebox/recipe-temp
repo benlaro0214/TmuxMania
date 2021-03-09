@@ -1,0 +1,85 @@
+The JukeBox
+---------------
+
+Turn an old pc into a music management system with a visualizer. Pop in your favorite MP3's and hook it up to your old stereo and have some cool tunes with a nice retro gui.
+
+
+LAYOUT
+-------
+
+#---------------------------------
+#|                               |
+#|                               |
+#|                               |
+#|              1                |
+#|                               |
+#|                               |
+#|-------------------------------|
+#|              |                |
+#|              |                |
+#|      2       |       3        |
+#|              |                |
+#|              |                |
+#|              |                |
+#---------------------------------
+
+APPS:
+
+1) cmus
+
+2) Alsamixer
+
+3) Cava
+
+HOW TO INSTALL SOFTWARE
+-----------------------
+
+Debian/Ubuntu/Mint/Raspbian
+----------------------------
+
+apt install alsamixer cava cmus
+
+
+And if using a *.deb file;
+
+sudo dpkg -i app_name.deb
+
+
+Centos/RedHat
+-------------
+
+yum install alsamixer cava cmus
+
+And if using an *.rpm file
+
+sudo rpm -i app_name.rpm
+
+
+Archlinux
+----------
+
+sudo pacman -S alsamixer cava cmus
+
+
+
+
+TMUX SCRIPT
+-----------
+
+#!/bin/bash
+    SN="Layout1"
+    tmux has-session -t $SN &>/dev/null
+    if [ $? != 0 ]
+    then
+        tmux new -s $SN -n conf -d
+        tmux new-window -t $SN:2 -n misc
+        tmux select-window -t $SN:1
+        tmux send-keys "cmus" C-m
+        tmux split-window -v -p 40 # split vertically by 60%
+        tmux send-keys "alsamixer" C-m
+        tmux split-window -h -p 50 # split horizontal by 50%
+        tmux send-keys "cava" C-m
+        tmux select-pane -t 0
+        fi
+        tmux -2 attach -t $SN
+

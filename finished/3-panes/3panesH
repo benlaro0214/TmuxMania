@@ -1,0 +1,38 @@
+#!/bin/bash
+#Three pane layout - Horizontal
+
+
+#---------------------------------
+#|                               |
+#|              1                |
+#|                               |
+#|-------------------------------|
+#|                               |
+#|                               |
+#|              2                |
+#|                               |
+#|-------------------------------|                             $
+#|                               |
+#|                               |
+#|              3                |
+#|                               |
+#|                               |
+#--------------------------------
+
+    SN="Layout4"
+    tmux has-session -t $SN &>/dev/null
+    if [ $? != 0 ]
+    then
+        tmux new -s $SN -n conf -d
+        tmux new-window -t $SN:2 -n misc
+        tmux select-window -t $SN:1
+        tmux split-windows -v -p 
+        tmux send-keys "cat one.txt" C-m
+        tmux split-window -v -p 65 # split vertically by 65%
+	tmux send-keys "cat two.txt" C-m
+	tmux split-window -h -p 50 # split  second pane in half (50%)
+        tmux send-keys "cat three.txt" C-m
+        tmux select-pane -t 0
+        fi
+        tmux -2 attach -t $SN
+

@@ -1,0 +1,87 @@
+TITLE OF RECIPE
+---------------
+
+**BRIEF DESCRIPTION OF WHAT THE RECIPE IS FOR**
+
+
+LAYOUT
+-------
+
+ _____________________________
+|                             |
+|                             |
+|                             |
+|                             |
+|                             |
+|           LAYOUT            |
+|                             |
+|                             |
+|                             |
+|                             |
+|                             |
+|                             |
+-------------------------------
+
+
+APPS:
+
+1) First App
+
+2) Second App
+
+3) Third App
+
+HOW TO INSTALL SOFTWARE
+-----------------------
+
+Debian/Ubuntu/Mint/Raspbian
+----------------------------
+
+apt install app_name
+
+
+And if using a *.deb file;
+
+sudo dpkg -i app_name.deb
+
+
+Centos/RedHat
+-------------
+
+yum install app_name
+
+And if using an *.rpm file
+
+sudo rpm -i app_name.rpm
+
+
+Archlinux
+----------
+
+sudo pacman -S <package_name_1>
+
+
+
+
+TMUX SCRIPT
+-----------
+
+#!/bin/bash
+Followed by script that is saved as an executable.
+
+SN="Layout"
+    tmux has-session -t $SN &>/dev/null
+    if [ $? != 0 ]
+    then
+        tmux new -s $SN -n conf -d
+        tmux new-window -t $SN:2 -n misc
+        tmux select-window -t $SN:1
+        tmux send-keys "cat1.txt" C-m
+        tmux split-window -h -p 50 # split vertically by 50%
+        tmux send-keys "cat2.txt" C-m
+        tmux select-pane -t 0
+	tmux split-window -v -p 50
+	tmux send-keys "cat3.txt" C-m
+        fi
+        tmux -2 attach -t $SN
+

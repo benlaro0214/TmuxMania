@@ -1,0 +1,95 @@
+The Internet Radio
+---------------
+
+Similar to the jukebox, the internet radio recycles an old pc into a source of listening pleasure. Rather than soundfiles (such as mp3's and ogg's), it relies on the old shoutcast and icecast feeds.
+
+LAYOUT
+-------
+
+#---------------------------------
+#|                               |
+#|                               |
+#|                               |
+#|              1                |
+#|                               |
+#|                               |
+#|-------------------------------|
+#|              |                |
+#|              |                |
+#|      2       |       3        |
+#|              |                |
+#|              |                |
+#|              |                |
+#---------------------------------
+
+
+APPS:
+
+1) links2
+
+2) cmus
+
+3) alsamixer
+
+HOW TO INSTALL SOFTWARE
+-----------------------
+
+Debian/Ubuntu/Mint/Raspbian
+----------------------------
+
+apt install links2 cmus alsamixer
+
+
+And if using a *.deb file;
+
+sudo dpkg -i app_name.deb
+
+
+Centos/RedHat
+-------------
+
+yum install links2 cmus alsamixer
+
+And if using an *.rpm file
+
+sudo rpm -i app_name.rpm
+
+
+Archlinux
+----------
+
+sudo pacman -S alsamixer cmus links2
+
+
+
+
+TMUX SCRIPT
+-----------
+
+#!/bin/bash
+
+
+    SN="Layout1"
+    tmux has-session -t $SN &>/dev/null
+    if [ $? != 0 ]
+    then
+        tmux new -s $SN -n conf -d
+        tmux new-window -t $SN:2 -n misc
+        tmux select-window -t $SN:1
+        tmux send-keys "links2 dir.xiph.org" C-m
+        tmux split-window -v -p 50 # split vertically by 50%
+        tmux send-keys "cmus" C-m
+        tmux split-window -h -p 50 # split horizontal by 50%
+        tmux send-keys "alsamixer" C-m
+        tmux select-pane -t 0
+        fi
+        tmux -2 attach -t $SN
+
+
+*NOTE: Some extra configuration is required with links2. Here's what you do;
+
+1) Open in a text editor the links2 config file (found here:) 
+2) find this line
+3) Add this code; **INSERT CODE HERE**
+
+This will set m3u, xlpf and ogg's mount points to open cmus as a default.

@@ -1,0 +1,36 @@
+#!/bin/bash
+#3panes Layout - Bottom 2 - 1 Up
+
+#---------------------------------
+#|                               |
+#|                               |
+#|                               |
+#|              1                |
+#|                               |
+#|                               |
+#|-------------------------------|
+#|              |                |
+#|              |                |
+#|      2       |       3        |
+#|              |                |
+#|              |                |
+#|              |                |
+#---------------------------------
+
+
+    SN="Layout1"
+    tmux has-session -t $SN &>/dev/null
+    if [ $? != 0 ]
+    then
+        tmux new -s $SN -n conf -d
+        tmux new-window -t $SN:2 -n misc
+        tmux select-window -t $SN:1
+        tmux send-keys "cat one.txt" C-m
+        tmux split-window -v -p 50 # split vertically by 50%
+        tmux send-keys "cat two.txt" C-m
+        tmux split-window -h -p 50 # split horizontal by 50%
+        tmux send-keys "cat three.txt" C-m
+        tmux select-pane -t 0
+        fi
+        tmux -2 attach -t $SN
+
